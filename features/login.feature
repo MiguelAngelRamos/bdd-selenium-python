@@ -14,5 +14,9 @@ Feature: Inicio de sesión
     Then debería ver la página principal
   
   Scenario: Inicio fallido con credenciales inválidas
-    When
+    When ingresa usuario "otro"
+    And ingresa contraseña "incorrecta"
+    And hace clic en el botón de inicio sesión
+    Then debería ver un mensaje de error
+  
   
