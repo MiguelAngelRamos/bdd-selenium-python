@@ -8,5 +8,9 @@ class LoginPage(BasePage):
     LOGIN_BUTTON = (By.CSS_SELECTOR, "button[type='submit']")
 
     def __init__(self, driver):
-        
-   
+        super().__init__(driver)
+    
+    def login(self, username, password):
+        self.find_element(*self.USERNAME_INPUT).send_keys(username)
+        self.find_element(*self.PASSWORD_INPUT).send_keys(password)
+        self.find_clickable(*self.LOGIN_BUTTON).click()

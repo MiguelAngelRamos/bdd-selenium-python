@@ -9,8 +9,8 @@ class BasePage:
         self.driver = driver
         self.wait = WebDriverWait(driver, 10)
        
-    def open(self, url: str) -> None:
-        self.driver.get(url)
+    def open(self, url: str, path="") -> None:
+        self.driver.get(f"{url}/{path}")
     
     def find_element(self, by, value):
         return self.wait.until(
