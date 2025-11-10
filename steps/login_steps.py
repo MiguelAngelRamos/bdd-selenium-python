@@ -1,8 +1,10 @@
-from pytest_bdd import given, when, then, parsers
+from pytest_bdd import given, when, then, parsers, scenarios
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import UnexpectedAlertPresentException
 from pages.login_page import LoginPage
+
+# Cargar los escenarios del archivo .feature
+scenarios('../features/login.feature')
 
 @given('el usuario está en la página de login')
 def navigate_to_login(selenium, base_url):
@@ -39,4 +41,13 @@ def verify_successful_login(selenium, base_url):
 
     # Comprobar que el menu de usuario sea visible, si no lo es, lanzaremos un error 
     assert login_page.is_user_menu_visible(), "User menu not visible after login"
+
+@then('debería ver un mensaje de error')
+def verify_error_message(selenium, base_url):
+    """Verificar que se meustre el mensaje de erorr al intentar iniciar sesion con credenciales invalidas"""
+    alert = WebDriverWait(selenium, 10).until(EC.alert_is_present())
+    alert_text = alert.text
+    alert.accept()
+    assert "Credenciales inválidas" in alert_text, f"Expected erro message but got: {alert_text}";
+
 

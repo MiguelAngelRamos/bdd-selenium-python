@@ -9,6 +9,7 @@ class LoginPage(BasePage):
     LOGIN_BUTTON = (By.CSS_SELECTOR, "button[type='submit']")
     USER_MENU = (By.ID, "user-menu")
     LOGIN_BTN = (By.ID, "login-btn")
+    ERROR_MESSAGE = (By.CSS_SELECTOR, ".error-message, .alert-danger, #error")
 
     def __init__(self, driver, base_url=None):
         super().__init__(driver, base_url)
@@ -33,7 +34,8 @@ class LoginPage(BasePage):
             return element.is_displayed()
         except:
             return False
-        
+
+
     def login(self, username, password):
         self.open()
         self.enter_username(username)
