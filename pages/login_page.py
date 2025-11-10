@@ -30,7 +30,7 @@ class LoginPage(BasePage):
 
     def is_user_menu_visible(self):
         try:
-            element = self.wait.until(EC.visibility_of_any_elements_located(self.USER_MENU))
+            element = self.wait.until(EC.visibility_of_element_located(self.USER_MENU))
             return element.is_displayed()
         except:
             return False
