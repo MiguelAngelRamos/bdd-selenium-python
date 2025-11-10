@@ -5,12 +5,13 @@ from selenium.common.exceptions import TimeoutException
 import pytest
 
 class BasePage:
-    def __init__(self, driver):
+    def __init__(self, driver, base_url):
         self.driver = driver
         self.wait = WebDriverWait(driver, 10)
+        self.base_url = base_url
        
-    def open(self, url: str, path="") -> None:
-        self.driver.get(f"{url}/{path}")
+    def visit(self, url_path=""):
+        self.driver.get(f"{self.base_url}/{url_path}")
     
     def find_element(self, by, value):
         return self.wait.until(
