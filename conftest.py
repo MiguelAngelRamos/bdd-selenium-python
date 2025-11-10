@@ -1,12 +1,18 @@
 import os
 import pytest
+import sys
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 
+project_root = os.path.dirname(os.path.abspath(__file__)) ## Obtiene desde la raiz del proyecto el archivo conftest.py
+sys.path.insert(0, project_root)
+
 @pytest.fixture(scope="session")
 def base_url():
-    return "https://ecommerce-e2e.netlify.app"
+    # return "https://ecommerce-e2e.netlify.app"
+    return os.getenv("BASE_URL", "https://ecommerce-e2e.netlify.app")
+
 
 @pytest.fixture
 def selenium():

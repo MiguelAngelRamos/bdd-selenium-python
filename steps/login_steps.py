@@ -38,6 +38,5 @@ def verify_successful_login(selenium, base_url):
     login_page = LoginPage(selenium, base_url)
 
     # Comprobar que el menu de usuario sea visible, si no lo es, lanzaremos un error 
-
     assert login_page.is_user_menu_visible(), "User menu not visible after login"
 
