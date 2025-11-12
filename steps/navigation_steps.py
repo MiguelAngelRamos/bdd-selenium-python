@@ -73,9 +73,24 @@ def click_cerrar_sesion(selenium):
         EC.visibility_of(user_menu)
     )
     selenium.execute_script("argument[0].click();", user_menu)
-    
+
     # Esperar que el dropdown se abra y el boton de logout sea visible
     logout_btn = WebDriverWait(selenium, 10).until(
         EC.element_to_be_clickable((By.ID, "logout-btn"))
     )
     selenium.execute_script("arguments[0].click();", logout_btn)
+
+@then("el localStorage debería estar vacio")
+def localstorage_vacio(selenium):
+    WebDriverWait(selenium, 10).until(
+        lambda selenium: (
+            selenium.execute_script("return localStorage.getItem('token');") in [None, "", "undefined", "null"] and
+            selenium.execute_script("return localStorage.getItem('user');") in [None, "", "undefined", "null"]
+        )
+    )
+
+    token = selenium.execute_script("return localStorage.getItem('token');")
+    user = selenium.execute_script("return localStorage.getItem('user');")
+    ## Assertions finales con mensajes descriptivos
+    assert token in [None, "", "undefined", "null"], f"Token deberia estar vacio pero es: {token}"
+    assert user in [None, "", "undefined", "null"], f"Token deberia estar vacio pero es: {user}"
