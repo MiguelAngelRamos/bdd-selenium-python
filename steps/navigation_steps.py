@@ -26,9 +26,9 @@ def ver_menu_navegacion(selenium):
     navbar = WebDriverWait(selenium, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "nav.navbar")))
     assert navbar.is_displayed()
 
-@given(parsers.parse('debería ver el enlace "{link_text}"'))
+@then(parsers.parse('debería ver el enlace "{link_text}"'))
 def ver_enlace(selenium, link_text):
-    element = WebDriverWait(selenium, 10).until(EC.visibility_of_element_located(By.PARTIAL_LINK_TEXT, link_text))
+    element = WebDriverWait(selenium, 10).until(EC.visibility_of_element_located((By.PARTIAL_LINK_TEXT, link_text)))
     assert element.is_displayed()
 
 @when(parsers.parse('el usuario hace clic en el enlace "{link_text}"'))
@@ -41,12 +41,14 @@ def click_en_enlace(selenium, link_text):
             toggler.click()
             # Esperar a que se el menu se expanda(espera explicita)
             WebDriverWait(selenium, 5).until(
-                EC.visibility_of_element_located(By.PARTIAL_LINK_TEXT, link_text))
+                EC.visibility_of_element_located((By.PARTIAL_LINK_TEXT, link_text))
+            )
     except:
         pass
 
+    # Esto garantiza que el elemento es existe en el DOM y está en un estado que permite interacción
     element = WebDriverWait(selenium, 10).until(
-        EC.visibility_of_element_located(By.PARTIAL_LINK_TEXT, link_text))
+        EC.element_to_be_clickable((By.PARTIAL_LINK_TEXT, link_text)))
     
     selenium.execute_script("arguments[0].scrollIntoView(true);", element)
     WebDriverWait(selenium, 5).until(EC.visibility_of(element))
@@ -54,25 +56,25 @@ def click_en_enlace(selenium, link_text):
 
 
 @then(parsers.parse('el usuario debería estar en la página "{page_name}"'))
-def usuario_en_pagin(selenium, page_name):
+def usuario_en_pagina(selenium, page_name):
     WebDriverWait(selenium, 15).until(
         lambda d: page_name in d.current_url,
         message=f"Esperaba estar en '{page_name} pero la URL ES: {selenium.current_url}"
     )
     assert page_name in selenium.current_url;
 
-@when("el usuario hace clic en cerrar sesion")
+@when("el usuario hace clic en cerrar sesión")
 def click_cerrar_sesion(selenium):
     # Primero hacer click en el menu de usuario
     user_menu = WebDriverWait(selenium, 10).until(
-        EC.element_to_be_clickable(By.ID, "user-name")
+        EC.element_to_be_clickable((By.ID, "user-name"))
     )
-    selenium.execute_script("argument[0].scrollIntoView(true);", user_menu)
+    selenium.execute_script("arguments[0].scrollIntoView(true);", user_menu)
     # Esperar a que el elemento este visible despues del scroll
     WebDriverWait(selenium, 5).until(
         EC.visibility_of(user_menu)
     )
-    selenium.execute_script("argument[0].click();", user_menu)
+    selenium.execute_script("arguments[0].click();", user_menu)
 
     # Esperar que el dropdown se abra y el boton de logout sea visible
     logout_btn = WebDriverWait(selenium, 10).until(
