@@ -7,8 +7,8 @@ from selenium.webdriver.common.by import By
 scenarios('../features/navigation.feature')
 # parsers.parse('ingresa usuario "{username}"')
 
-#@given(parsers.re(r'el usuario ha iniciado sesión con usuario "(?P<username>\w+)" y contraseña "(?P<password>\w+)"'))
-@given(parsers.parse('el usuario ha iniciado sesión con usuario {username} y contraseña {password}'))
+@given(parsers.re(r'el usuario ha iniciado sesión con usuario "(?P<username>\w+)" y contraseña "(?P<password>\w+)"'))
+#@given(parsers.parse('el usuario ha iniciado sesión con usuario {username} y contraseña {password}'))
 def user_logged_in(selenium, base_url, username, password):
     login_page = LoginPage(selenium, base_url)
     login_page.login(username, password)
@@ -18,12 +18,12 @@ def user_logged_in(selenium, base_url, username, password):
     WebDriverWait(selenium, 10).until(EC.url_contains("index"))
 
 @given('el usuario está en la página principal')
-def usuario_en_pagina_principal(selenium, base_url, context):
+def usuario_en_pagina_principal(selenium, base_url):
     selenium.get(f"{base_url}/index.html")
 
 @then('debería ver el menú de navegación')
 def ver_menu_navegacion(selenium):
-    navbar = WebDriverWait(selenium, 10).until(EC.visibility_of_any_elements_located((By.CSS_SELECTOR, "nav.navbar")))
+    navbar = WebDriverWait(selenium, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "nav.navbar")))
     assert navbar.is_displayed()
 
 @given(parsers.parse('debería ver el enlace "{link_text}"'))
@@ -53,7 +53,7 @@ def click_en_enlace(selenium, link_text):
     selenium.execute_script("arguments[0].click();", element)
 
 
-@then(parsers.pase('el usuario debería estar en la página "{page_name}"'))
+@then(parsers.parse('el usuario debería estar en la página "{page_name}"'))
 def usuario_en_pagin(selenium, page_name):
     WebDriverWait(selenium, 15).until(
         lambda d: page_name in d.current_url,

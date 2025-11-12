@@ -6,7 +6,7 @@ Feature: Navegación en la Página principal
   Para acceder a diferentes secciones
 
   Background:
-    Given el usuario ha iniciado sesión con usuario "emilys" y contraseña "emilypass"
+    Given el usuario ha iniciado sesión con usuario "emilys" y contraseña "emilyspass"
     And el usuario está en la página principal
 
   Scenario: Verificar elementos de navegación
