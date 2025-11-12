@@ -1,4 +1,5 @@
 # language: en
+@login
 Feature: Inicio de sesión
   Como usuario registrado
   Quiero iniciar sesión en el sitio

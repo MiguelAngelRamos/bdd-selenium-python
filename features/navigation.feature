@@ -1,5 +1,5 @@
 # language: en
-
+@navigation
 Feature: Navegación en la Página principal
   Como usuario autenticado
   Quiero navegar por el sitio
