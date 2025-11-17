@@ -1,6 +1,7 @@
 from pages.base_page import BasePage
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import NoSuchElementException
 
 class NavbarComponent(BasePage):
     """
@@ -62,9 +63,11 @@ class NavbarComponent(BasePage):
     # Clicks 
     def click_products(self):
         self.find_clickable(*self.PRODUCTS_LINK).click()
-    
+        return True
+
     def click_cart(self):
         self.find_clickable(*self.CART_LINK).click()
+        return True
 
     def click_logout(self):
       

@@ -25,7 +25,7 @@ def usuario_en_pagina_principal(selenium, base_url):
 @then('debería ver el menú de navegación')
 def ver_menu_navegacion(selenium, base_url):
     index_page = IndexPage(selenium, base_url)
-    assert index_page.navbar.is_element_visible(), "El menú de navegación no está visible"
+    assert index_page.navbar.is_navbar_visible(), "El menú de navegación no está visible"
 
 @then(parsers.parse('debería ver el enlace "{link_text}"'))
 def ver_enlace(selenium, base_url, link_text):

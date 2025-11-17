@@ -25,8 +25,9 @@ class BasePage:
     
     def is_element_visible(self, by, value, timeout=10):
         try:
+            # Usamos un wait temporal si el timeout es diferente
             WebDriverWait(self.driver, timeout).until(
-                    EC.visibility_of_element_located((by, value))
+                EC.visibility_of_element_located((by, value))
             )
             return True
         except TimeoutException:
