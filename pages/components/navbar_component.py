@@ -62,12 +62,11 @@ class NavbarComponent(BasePage):
 
     # Clicks 
     def click_products(self):
-        self.find_clickable(*self.PRODUCTS_LINK).click()
-        return True
+        self._click_navbar_link(self.PRODUCTS_LINK)
+        
 
     def click_cart(self):
-        self.find_clickable(*self.CART_LINK).click()
-        return True
+        self._click_navbar_link(self.CART_LINK)
 
     def click_logout(self):
       
