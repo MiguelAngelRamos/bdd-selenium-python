@@ -1,4 +1,5 @@
 from pytest_bdd import given, when, then, parsers
+from selenium.webdriver.support.ui import WebDriverWait
 from pages.base_page import BasePage
 # Mapeo de nombre de páginas a sus rutas
 PAGE_ROUTES = {
@@ -30,10 +31,22 @@ def usuario_en_pagina(selenium, base_url, page_name):
     base_page = BasePage(selenium, base_url)
 
     expect_fragment = PAGE_ROUTES.get(page_name.lower(), page_name)
-    url_did_match = base_page
-    # WebDriverWait(selenium, 15).until(
-    #     lambda d: page_name in d.current_url,
-    #     message=f"Esperaba estar en '{page_name} pero la URL ES: {selenium.current_url}"
-    # )
-    # assert page_name in selenium.current_url;
-    # #TODO: Candidato para ir a los pasos Comunes
+    url_did_match = base_page.wait_for_url_to_contain(expect_fragment)
+
+    assert url_did_match, "No existe!"
+
+@then("el localStorage debería estar vacio")
+def localstorage_vacio(selenium):
+    WebDriverWait(selenium, 10).until(
+        lambda selenium: (
+            selenium.execute_script("return localStorage.getItem('token');") in [None, "", "undefined", "null"] and
+            selenium.execute_script("return localStorage.getItem('user');") in [None, "", "undefined", "null"]
+        )
+    )
+
+    token = selenium.execute_script("return localStorage.getItem('token');")
+    user = selenium.execute_script("return localStorage.getItem('user');")
+    ## Assertions finales con mensajes descriptivos
+    assert token in [None, "", "undefined", "null"], f"Token deberia estar vacio pero es: {token}"
+    assert user in [None, "", "undefined", "null"], f"Token deberia estar vacio pero es: {user}"
+    #TODO: Candidato para ir a los pasos comunes
