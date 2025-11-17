@@ -23,12 +23,3 @@ class IndexPage(BasePage):
         return self.is_element_visible(*self.LOGOUT_BUTTON)
     
 
-    # Clicks 
-    def click_products(self):
-        self.find_clickable(*self.PRODUCTS_LINK).click()
-    
-    def click_cart(self):
-        self.find_clickable(*self.CART_LINK).click()
-
-    def click_logout(self):
-        self.find_clickable(*self.LOGOUT_BUTTON).click()

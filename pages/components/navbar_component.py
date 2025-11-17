@@ -57,3 +57,25 @@ class NavbarComponent(BasePage):
         self.driver.execute_script("arguments[0].scrollIntoView(true);", element)
         self.wait.until(EC.visibility_of(element))
         self.driver.execute_script("arguments[0].click();", element)
+
+
+    # Clicks 
+    def click_products(self):
+        self.find_clickable(*self.PRODUCTS_LINK).click()
+    
+    def click_cart(self):
+        self.find_clickable(*self.CART_LINK).click()
+
+    def click_logout(self):
+      
+        user_menu = self.find_clickable(*self.USER_MENU_DROPDOWN)
+        self.driver.execute_script("arguments[0].scrollIntoView(true);", user_menu)
+        # Esperar a que el elemento este visible despues del scroll
+
+        self.wait.until(EC.visibility_of(user_menu))
+        self.driver.execute_script("arguments[0].click();", user_menu)
+
+        # Esperar que el dropdown se abra y el boton de logout sea visible
+        logout_btn = self.find_clickable(*self.LOGOUT_BUTTON)
+        self.driver.execute_script("arguments[0].click();", logout_btn)
+    

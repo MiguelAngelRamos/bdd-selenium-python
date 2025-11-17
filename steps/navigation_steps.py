@@ -47,21 +47,8 @@ def usuario_en_pagina(selenium, page_name):
 @when("el usuario hace clic en cerrar sesión")
 def click_cerrar_sesion(selenium):
     # Primero hacer click en el menu de usuario
-    user_menu = WebDriverWait(selenium, 10).until(
-        EC.element_to_be_clickable((By.ID, "user-name"))
-    )
-    selenium.execute_script("arguments[0].scrollIntoView(true);", user_menu)
-    # Esperar a que el elemento este visible despues del scroll
-    WebDriverWait(selenium, 5).until(
-        EC.visibility_of(user_menu)
-    )
-    selenium.execute_script("arguments[0].click();", user_menu)
-
-    # Esperar que el dropdown se abra y el boton de logout sea visible
-    logout_btn = WebDriverWait(selenium, 10).until(
-        EC.element_to_be_clickable((By.ID, "logout-btn"))
-    )
-    selenium.execute_script("arguments[0].click();", logout_btn)
+    #TODO: llamar a la logica del componente
+    pass
 
 @then("el localStorage debería estar vacio")
 def localstorage_vacio(selenium):
