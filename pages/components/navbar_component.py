@@ -63,7 +63,7 @@ class NavbarComponent(BasePage):
     # Clicks 
     def click_products(self):
         self._click_navbar_link(self.PRODUCTS_LINK)
-        
+
 
     def click_cart(self):
         self._click_navbar_link(self.CART_LINK)

@@ -32,3 +32,14 @@ class BasePage:
             return True
         except TimeoutException:
             return False
+    
+
+    def wait_for_url_to_contain(self, url_fragment, timeout=15):
+        try:
+            WebDriverWait(self.driver, timeout).until(
+                EC.url_contains(url_fragment)
+            )
+            return True
+        except TimeoutException:
+            print(f"Timeout: la url no contenia: {url_fragment}, despues del {timeout}")
+            return False
