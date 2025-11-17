@@ -32,27 +32,8 @@ def ver_enlace(selenium, link_text):
     assert element.is_displayed()
 
 @when(parsers.parse('el usuario hace clic en el enlace "{link_text}"'))
-def click_en_enlace(selenium, link_text):
-    """Un Soporte para menus responsive"""
-    try:
-        toggler = selenium.find_element(By.CLASS_NAME, "navbar-toggler")
-        # Si el boton de hamburgesa es visible, en navbar esta calapsado y necesitamos expandirlo
-        if toggler.is_displayed():
-            toggler.click()
-            # Esperar a que se el menu se expanda(espera explicita)
-            WebDriverWait(selenium, 5).until(
-                EC.visibility_of_element_located((By.PARTIAL_LINK_TEXT, link_text))
-            )
-    except:
-        pass
+#! Borrado ahora pertenece al navbar components def click_en_enlace(selenium, link_text): 
 
-    # Esto garantiza que el elemento es existe en el DOM y está en un estado que permite interacción
-    element = WebDriverWait(selenium, 10).until(
-        EC.element_to_be_clickable((By.PARTIAL_LINK_TEXT, link_text)))
-    
-    selenium.execute_script("arguments[0].scrollIntoView(true);", element)
-    WebDriverWait(selenium, 5).until(EC.visibility_of(element))
-    selenium.execute_script("arguments[0].click();", element)
 
 
 @then(parsers.parse('el usuario debería estar en la página "{page_name}"'))

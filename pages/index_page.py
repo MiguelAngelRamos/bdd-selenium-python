@@ -15,14 +15,9 @@ class IndexPage(BasePage):
     def __init__(self, driver, base_url):
         super().__init__(driver, base_url)
 
-    def is_navbar_visible(self):
-        return self.is_element_visible(*self.NAVBAR)
+   
     
-    def is_products_link_visible(self):
-        return self.is_element_visible(*self.PRODUCTS_LINK)
 
-    def is_cart_link_visible(self):
-        return self.is_element_visible(*self.CART_LINK)
 
     def is_logout_button_visible(self):
         return self.is_element_visible(*self.LOGOUT_BUTTON)

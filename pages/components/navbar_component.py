@@ -17,3 +17,43 @@ class NavbarComponent(BasePage):
 
     # localizador del menú responsive
     NAVBAR_TOGGLER = (By.CLASS_NAME, "navbar-toggler") # eL botón de hamburguesa
+
+    def __init__(self, driver, base_url):
+        super().__init__(driver, base_url)
+
+    #-- Métodos de visibilidad -- 
+    def is_navbar_visible(self):
+        return self.is_element_visible(*self.NAVBAR)
+    
+    def is_products_link_visible(self):
+        return self.is_element_visible(*self.PRODUCTS_LINK)
+
+    def is_cart_link_visible(self):
+        return self.is_element_visible(*self.CART_LINK)
+    
+
+    # -- Métodos de Acción (Clicks) --
+    def _click_navbar_link(self, link_locator):
+        """ 
+        Método privado que nos va permitir dar click en los enlaces del navbar
+        """
+        ## 1. Manejar el menu de hamburguesa (responsive)
+    
+        try:
+            toggler = self.driver.find_element(*self.NAVBAR_TOGGLER)
+            # Si el boton de hamburgesa es visible, en navbar esta calapsado y necesitamos expandirlo
+            if toggler.is_displayed():
+                toggler.click()
+                # Esperar a que se el menu se expanda(espera explicita)
+                # Esperar a que el enlace este visible despues de abrir el menu
+                self.wait.until(EC.visibility_of_element_located(link_locator))
+        except NoSuchElementException:
+            # EL toggler no visible es por que estamos en (modo escritorio), continuar
+            pass
+
+        # Esto garantiza que el elemento es existe en el DOM y está en un estado que permite interacción
+        element = self.find_clickable(*link_locator)
+        
+        self.driver.execute_script("arguments[0].scrollIntoView(true);", element)
+        self.wait.until(EC.visibility_of(element))
+        self.driver.execute_script("arguments[0].click();", element)
