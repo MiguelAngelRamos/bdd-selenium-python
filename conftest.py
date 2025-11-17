@@ -8,6 +8,8 @@ from selenium.webdriver.chrome.options import Options
 project_root = os.path.dirname(os.path.abspath(__file__)) ## Obtiene desde la raiz del proyecto el archivo conftest.py
 sys.path.insert(0, project_root)
 
+pytest_plugins = "steps.common_steps" # Esto le dice a pytest que cargue los pasos comunes
+
 @pytest.fixture(scope="session")
 def base_url():
     # return "https://ecommerce-e2e.netlify.app"

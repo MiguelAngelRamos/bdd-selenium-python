@@ -5,9 +5,7 @@ from selenium.webdriver.common.by import By
 class IndexPage(BasePage):
 
     # Localizadores
-    NAVBAR = (By.CSS_SELECTOR, "nav.navbar")
-    PRODUCTS_LINK = (By.LINK_TEXT, "Productos")
-    CART_LINK = (By.PARTIAL_LINK_TEXT, "Carrito")
+    
     CART_COUNT = (By.ID, "mini-cart-count")
     # localizadores con condicion de login de usuario
     CHECKOUT_LINK = (By.ID, "Checkout")
