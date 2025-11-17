@@ -4,6 +4,7 @@ from pages.login_page import LoginPage
 from selenium.webdriver.support.ui import WebDriverWait 
 from selenium.webdriver.support import expected_conditions as EC 
 from selenium.webdriver.common.by import By
+from pages.index_page import IndexPage
 scenarios('../features/navigation.feature')
 # parsers.parse('ingresa usuario "{username}"')
 
@@ -22,17 +23,32 @@ def usuario_en_pagina_principal(selenium, base_url):
     selenium.get(f"{base_url}/index.html")
 
 @then('debería ver el menú de navegación')
-def ver_menu_navegacion(selenium):
-    navbar = WebDriverWait(selenium, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "nav.navbar")))
-    assert navbar.is_displayed()
+def ver_menu_navegacion(selenium, base_url):
+    index_page = IndexPage(selenium, base_url)
+    assert index_page.navbar.is_element_visible(), "El menú de navegación no está visible"
 
 @then(parsers.parse('debería ver el enlace "{link_text}"'))
-def ver_enlace(selenium, link_text):
-    element = WebDriverWait(selenium, 10).until(EC.visibility_of_element_located((By.PARTIAL_LINK_TEXT, link_text)))
-    assert element.is_displayed()
+def ver_enlace(selenium, base_url, link_text):
+    index_page = IndexPage(selenium, base_url)
+
+    if link_text == "Productos":
+        assert index_page.navbar.is_products_link_visible(), "El enlace 'Productos' no está visible"
+    elif link_text == "Carrito":
+        assert index_page.navbar.is_cart_link_visible(), "El enlace 'Carrito' no está visible"
+    else:
+        raise ValueError(f"Step 'ver enlace' no definido para: {link_text}")
+
 
 @when(parsers.parse('el usuario hace clic en el enlace "{link_text}"'))
-#! Borrado ahora pertenece al navbar components def click_en_enlace(selenium, link_text): 
+def click_en_enlace(selenium, base_url, link_text):
+    index_page = IndexPage(selenium, base_url)
+
+    if link_text == "Productos":
+        assert index_page.navbar.click_products()
+    elif link_text == "Carrito":
+        assert index_page.navbar.click_cart()
+    else:
+        raise ValueError(f"Step 'clic en enlace' no definido para: {link_text}")
 
 
 
@@ -43,12 +59,14 @@ def usuario_en_pagina(selenium, page_name):
         message=f"Esperaba estar en '{page_name} pero la URL ES: {selenium.current_url}"
     )
     assert page_name in selenium.current_url;
+    #TODO: Candidato para ir a los pasos Comunes
 
 @when("el usuario hace clic en cerrar sesión")
-def click_cerrar_sesion(selenium):
-    # Primero hacer click en el menu de usuario
-    #TODO: llamar a la logica del componente
-    pass
+def click_cerrar_sesion(selenium, base_url):
+    # Hace click en logout a través del componente
+    index_page = IndexPage(selenium, base_url)
+    index_page.navbar.click_logout()
+
 
 @then("el localStorage debería estar vacio")
 def localstorage_vacio(selenium):
@@ -64,3 +82,4 @@ def localstorage_vacio(selenium):
     ## Assertions finales con mensajes descriptivos
     assert token in [None, "", "undefined", "null"], f"Token deberia estar vacio pero es: {token}"
     assert user in [None, "", "undefined", "null"], f"Token deberia estar vacio pero es: {user}"
+    #TODO: Candidato para ir a los pasos comunes
