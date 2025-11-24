@@ -1,7 +1,7 @@
 from pages.base_page import BasePage
 from selenium.webdriver.common.by import By
 from pages.components.navbar_component import NavbarComponent
-
+from selenium.webdriver.support import expected_conditions as EC
 class CartPage(BasePage):
 
     # Localizadores
@@ -22,4 +22,17 @@ class CartPage(BasePage):
         self.navbar = NavbarComponent(driver, base_url)
 
 
+    # Garantiza que estamos en la página del carrito y su contenido ya se rendizó
+    def ensure_cart_ui_ready(self):
+        if "cart.html" not in self.driver.current_url:
+            self.visit("cart.html")
 
+        self.wait.until(EC.url_contains("cart.html"))
+        self.wait.until(
+            lambda navegador: navegador.execute_script(
+                """
+                const wrap = document.getElementById('cart-table');
+                return wrap && wrap.innerHTML.trim().length > 0;
+                """
+            )
+        )
