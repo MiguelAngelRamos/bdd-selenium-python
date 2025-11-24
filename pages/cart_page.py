@@ -46,3 +46,16 @@ class CartPage(BasePage):
 
         # Evento para ver cuando cambia el local storage
         self.driver.execute_script("document.dispatchEvent(new CustomEvent('cart:changed'));")
+    
+    def is_cart_table_visible(self):
+        return self.is_element_visible(*self.CART_TABLE)
+    
+    def get_items_count(self):
+        if not self.is_cart_table_visible():
+            return 0
+        return len(self.driver.find_elements(By.CSS_SELECTOR, "#cart-table tbody tr"))
+
+    def get_total_text(self):
+        if self.is_element_visible(*self.CART_FOOTER):
+            return self.driver.find_element(*self.CART_FOOTER).text
+        return ""
