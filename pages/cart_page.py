@@ -36,3 +36,13 @@ class CartPage(BasePage):
                 """
             )
         )
+    
+    def inject_product_to_storage(self, product_data):
+    
+        self.driver.execute_script(
+            "localStorage.setItem('cart-v1', JSON.stringify(arguments[0]));",
+            product_data
+        )
+
+        # Evento para ver cuando cambia el local storage
+        self.driver.execute_script("document.dispatchEvent(new CustomEvent('cart:changed'));")
