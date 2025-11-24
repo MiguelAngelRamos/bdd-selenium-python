@@ -14,11 +14,11 @@ Feature: Carrito de Compras
     When el usuario navega a la página del carrito
     Then debería ver el mensaje "Tu carrito está vacío"
 
-  # Scenario: Ver productos en el carrito
-  #   Given el usuario ha agregado un producto al carrito
-  #   When el usuario navega a la página del carrito
-  #   Then debería ver el producto en la lista
-  #   And debería ver el total calculado
+  Scenario: Ver productos en el carrito
+    Given el usuario ha agregado un producto al carrito
+    When el usuario navega a la página del carrito
+    Then debería ver el producto en la lista
+    And debería ver el total calculado
 
   # Scenario: Eliminar producto del carrito
   #   Given el usuario tiene un producto en el carrito
