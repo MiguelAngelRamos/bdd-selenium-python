@@ -46,6 +46,11 @@ class CartPage(BasePage):
 
         # Evento para ver cuando cambia el local storage
         self.driver.execute_script("document.dispatchEvent(new CustomEvent('cart:changed'));")
+
+    def clear_cart_storage(self):
+        self.driver.execute_script("localStorage.setItem('cart-v1', JSON.stringify([]));")
+        # Evento para ver cuando cambia el local storage
+        self.driver.execute_script("document.dispatchEvent(new CustomEvent('cart:changed'));")
     
     def is_cart_table_visible(self):
         return self.is_element_visible(*self.CART_TABLE)
