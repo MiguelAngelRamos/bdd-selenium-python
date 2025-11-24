@@ -16,6 +16,11 @@ class CartPage(BasePage):
 
     BODY = (By.TAG_NAME, "body")
 
+    # .btn.btn-sm.btn-outline-danger.remove
+    # #cart-table button.remove
+
+    REMOVE_BUTTONS = (By.CSS_SELECTOR, "#cart-table button.remove") # BOTONES DE QUITAR
+
     def __init__(self, driver, base_url):
         super().__init__(driver, base_url)
         # Composición
