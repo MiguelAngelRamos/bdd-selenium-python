@@ -64,3 +64,6 @@ class CartPage(BasePage):
         if self.is_element_visible(*self.CART_FOOTER):
             return self.driver.find_element(*self.CART_FOOTER).text
         return ""
+    
+    def get_body_text_lower(self):
+        return self.driver.find_element(*self.BODY).text.lower()
