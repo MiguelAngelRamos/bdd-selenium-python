@@ -1,6 +1,8 @@
 from pytest_bdd import given, when, then, parsers
 from selenium.webdriver.support.ui import WebDriverWait
 from pages.base_page import BasePage
+from pages.login_page import LoginPage
+from selenium.webdriver.support import expected_conditions as EC 
 # Mapeo de nombre de páginas a sus rutas
 PAGE_ROUTES = {
     'login': '/login.html',
@@ -50,3 +52,13 @@ def localstorage_vacio(selenium):
     assert token in [None, "", "undefined", "null"], f"Token deberia estar vacio pero es: {token}"
     assert user in [None, "", "undefined", "null"], f"Token deberia estar vacio pero es: {user}"
     #TODO: Candidato para ir a los pasos comunes
+
+@given(parsers.re(r'el usuario ha iniciado sesión con usuario "(?P<username>\w+)" y contraseña "(?P<password>\w+)"'))
+#@given(parsers.parse('el usuario ha iniciado sesión con usuario {username} y contraseña {password}'))
+def user_logged_in(selenium, base_url, username, password):
+    login_page = LoginPage(selenium, base_url)
+    login_page.login(username, password)
+
+    # Espera Explicita: Esperar hasta 10 segundos a que la URL contenga "index"
+    # Esto confirma que el login fue exitoso y redirigio correctamente
+    WebDriverWait(selenium, 10).until(EC.url_contains("index"))
