@@ -98,7 +98,8 @@ class CartPage(BasePage):
             # El botón Continuar está dentro de #cart-table generado dinámicamente
             self.find_clickable(*self.CHECKOUT_BUTTON).click()
             # Esperamos a que la navegación ocurra, si no ocurre, forzamos
-            if not self.wait_for_url("/checkout.html"):
+            
+            if not self.wait_for_url_to_contain("/checkout.html"):
                 # Fallback: forzar navegación si el click no la dispara
                 self.visit("checkout.html")
 
