@@ -20,10 +20,10 @@ Feature: Carrito de Compras
     Then debería ver el producto en la lista
     And debería ver el total calculado
 
-  # Scenario: Eliminar producto del carrito
-  #   Given el usuario tiene un producto en el carrito
-  #   When el usuario hace clic en "Quitar"
-  #   Then el producto debería eliminarse del carrito
+  Scenario: Eliminar producto del carrito
+    Given el usuario tiene un producto en el carrito
+    When el usuario hace clic en "Quitar"
+    Then el producto debería eliminarse del carrito
 
   # Scenario: Proceder al checkout
   #   Given el usuario tiene productos en el carrito

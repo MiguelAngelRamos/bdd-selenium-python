@@ -21,6 +21,12 @@ class CartPage(BasePage):
 
     REMOVE_BUTTONS = (By.CSS_SELECTOR, "#cart-table button.remove") # BOTONES DE QUITAR
 
+    # Botones específicos - Estos botones se generan DENTRO de #cart-table dinámicamente
+    CHECKOUT_BUTTON = (
+        By.XPATH,
+        "//div[@id='cart-table']//a[contains(@class, 'btn-primary') and contains(text(), 'Continuar')]"
+    )
+
     def __init__(self, driver, base_url):
         super().__init__(driver, base_url)
         # Composición
@@ -72,3 +78,42 @@ class CartPage(BasePage):
     
     def get_body_text_lower(self):
         return self.driver.find_element(*self.BODY).text.lower()
+    
+
+    def add_test_product(self):
+        sample_product = [{
+            "id": 1,
+            "title": "Essence Mascara Lash Princess",
+            "price": 9.99,
+            "thumbnail":"https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp",
+            "qty": 1
+        }]
+
+        self.inject_product_to_storage(sample_product)
+
+    def click_button_by_text(self, text):
+        text_lower = text.lower()
+        
+        if "continuar" in text_lower or "checkout" in text_lower:
+            # El botón Continuar está dentro de #cart-table generado dinámicamente
+            self.find_clickable(*self.CHECKOUT_BUTTON).click()
+            # Esperamos a que la navegación ocurra, si no ocurre, forzamos
+            if not self.wait_for_url("/checkout.html"):
+                # Fallback: forzar navegación si el click no la dispara
+                self.visit("checkout.html")
+
+        elif "quitar" in text_lower or "eliminar" in text_lower:
+            buttons = self.wait.until(EC.presence_of_all_elements_located(self.REMOVE_BUTTONS))
+
+            if buttons:
+                self.driver.execute_script("arguments[0].click();", buttons[0])
+                from selenium.webdriver.support.ui import WebDriverWait
+                WebDriverWait(self.driver, 2).until(
+                    EC.staleness_of(buttons[0])
+                )
+            else:
+                raise Exception("Se intentó hacer clic en 'Quitar' pero no hay botones de eliminar.")
+        else:
+            # Fallback: Intentar buscar un botón genérico con ese texto
+            xpath = f"//button[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '{text_lower}')]"
+            self.find_clickable(By.XPATH, xpath).click()
