@@ -17,6 +17,27 @@ def usuario_tiene_producto(selenium, base_url):
     if "cart.html" in selenium.current_url:
         selenium.refresh()
 
+@given('el usuario tiene productos en el carrito')
+def usuario_tiene_varios_productos(selenium, base_url):
+    cart_page = CartPage(selenium, base_url)
+    products = [{
+            "id": 1,
+            "title": "Essence Mascara Lash Princess",
+            "price": 9.99,
+            "thumbnail":"https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp",
+            "qty": 1
+        },
+        {
+            "id": 2,
+            "title": "CeraVe Hydrating Facial Cleanser",
+            "price": 14.99,
+            "thumbnail":"https://cdn.dummyjson.com/product-images/beauty/cerave-hydrating-facial-cleanser/thumbnail.webp",
+            "qty": 2
+        }
+        ]
+    cart_page.inject_product_to_storage(products)
+    if "cart.html" in selenium.current_url:
+        selenium.refresh()
 
 @when('el usuario navega a la página del carrito')
 def navegar_a_carrito(selenium, base_url):
