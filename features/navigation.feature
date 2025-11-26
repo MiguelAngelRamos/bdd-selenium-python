@@ -22,6 +22,12 @@ Feature: Navegación en la Página principal
     When el usuario hace clic en el enlace "Carrito"
     Then el usuario debería estar en la página "cart"
 
+  # Scenario: Eliminar uno de dos productos en el carrito
+  #   Given el usuario ha agregado 2 productos al carrito
+  #   When el usuario elimina uno de los productos haciendo clic en "Quitar"
+  #   Then debería quedar 1 producto en la lista
+  #   And el total debería actualizarse correctamente
+
   Scenario: Cerrar sesión
     When el usuario hace clic en cerrar sesión
     Then el localStorage debería estar vacio
