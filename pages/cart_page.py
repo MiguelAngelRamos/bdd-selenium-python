@@ -103,6 +103,7 @@ class CartPage(BasePage):
                 self.visit("checkout.html")
 
         elif "quitar" in text_lower or "eliminar" in text_lower:
+            # Esperar hasta que al menos un botón esté presente con este localizador
             buttons = self.wait.until(EC.presence_of_all_elements_located(self.REMOVE_BUTTONS))
 
             if buttons:
