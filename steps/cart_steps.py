@@ -23,7 +23,7 @@ def navegar_a_carrito(selenium, base_url):
     cart_page = CartPage(selenium, base_url)
     cart_page.ensure_cart_ui_ready() # Navega y espera el renderizado completo
 
-@when('el usuario hace clic en "{button_text}"')
+@when(parsers.parse('el usuario hace clic en "{button_text}"'))
 def click_en_boton(selenium, base_url, button_text):
     cart_page = CartPage(selenium, base_url)
     cart_page.ensure_cart_ui_ready() # Asegura que la UI esté lista
