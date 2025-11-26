@@ -10,10 +10,27 @@ def carrito_vacio(selenium, base_url):
     if "cart.html" in selenium.current_url:
         selenium.refresh()
 
+@given('el usuario tiene un producto en el carrito')
+def usuario_tiene_producto(selenium, base_url):
+    cart_page = CartPage(selenium, base_url)
+    cart_page.add_test_product()
+    if "cart.html" in selenium.current_url:
+        selenium.refresh()
+
+
 @when('el usuario navega a la página del carrito')
 def navegar_a_carrito(selenium, base_url):
     cart_page = CartPage(selenium, base_url)
     cart_page.ensure_cart_ui_ready() # Navega y espera el renderizado completo
+
+@when('el usuario hace clic en "{button_text}"')
+def click_en_boton(selenium, base_url, button_text):
+    cart_page = CartPage(selenium, base_url)
+    cart_page.ensure_cart_ui_ready() # Asegura que la UI esté lista
+    cart_page.click_button_by_text(button_text)
+
+
+
 
 @then(parsers.parse('debería ver el mensaje "{mensaje}"'))
 def ver_mensaje_carrito_vacio(selenium, base_url, mensaje):
@@ -51,3 +68,9 @@ def verificar_total(selenium, base_url):
     total_text = cart_page.get_total_text()
     # Buscamos indicadores de total en el texto
     assert "total" in total_text.lower() or "$" in total_text, "El total no es visible"
+
+@then('el producto debería eliminarse del carrito')
+def verificar_producto_eliminado(selenium, base_url):
+    cart_page = CartPage(selenium, base_url)
+    is_empty = "vacío" in cart_page.get_body_text_lower() or cart_page.get_items_count() == 0
+    assert is_empty, "El carrito no está vacío después de eliminar el producto"

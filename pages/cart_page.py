@@ -79,7 +79,7 @@ class CartPage(BasePage):
     def get_body_text_lower(self):
         return self.driver.find_element(*self.BODY).text.lower()
     
-
+    ## helpers para los steps, nos permiten agregar productos de prueba y hacer clic en botones específicos
     def add_test_product(self):
         sample_product = [{
             "id": 1,
@@ -118,3 +118,4 @@ class CartPage(BasePage):
             # Fallback: Intentar buscar un botón genérico con ese texto
             xpath = f"//button[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '{text_lower}')]"
             self.find_clickable(By.XPATH, xpath).click()
+
